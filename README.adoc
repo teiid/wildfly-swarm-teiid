@@ -1,2 +1,9 @@
 # wildfly-swarm-teiid
 The WildFly Swarm Teiid Fraction
+
+== TODO
+
+----
+[standalone@localhost:9990 /] /subsystem=teiid/transport=jdbc:write-attribute(name=ssl-authentication-mode,value=
+1-way  2-way  anonymous
+----
