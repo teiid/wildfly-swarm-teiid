@@ -45,11 +45,22 @@
                 <artifactId>config-api</artifactId>
                 <version>${version.config-api}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>config-api-modules</artifactId>
+                <version>${version.config-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>teiid-config-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <!-- Modules -->
     <modules>
+        <module>config-api</module>
         <module>teiid</module>
     </modules>
 
