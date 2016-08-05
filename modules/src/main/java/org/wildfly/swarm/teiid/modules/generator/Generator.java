@@ -9,7 +9,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import org.apache.maven.model.Dependency;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.jboss.shrinkwrap.descriptor.spi.node.Node;
+import org.jboss.shrinkwrap.descriptor.spi.node.NodeImporter;
+import org.jboss.shrinkwrap.descriptor.spi.node.dom.XmlDomNodeImporterImpl;
+
 
 /**
  * 
@@ -57,12 +72,57 @@ public class Generator {
                 
                 // replace resource-root to artifact, eg, replace '<resource-root path="teiid-engine-9.1.0.Alpha2.jar" />'
                 // to '<artifact name="${org.jboss.teiid:teiid-engine}" />'  
+                List<String> dependencies = getArtifactsDependencies();
+                Map<String, String> replacementMap = getReplacementMap(dependencies, path);
                 
                 Files.write(path, content.getBytes(charset));
                 return super.visitFile(path, attrs);
             }});
         
-        System.out.println("-------------");
+        
+    }
+    
+    protected Map<String, String> getReplacementMap(List<String> dependencies, Path path) throws IllegalArgumentException, IOException{
+        
+        NodeImporter importer = new XmlDomNodeImporterImpl();
+        Node node = importer.importAsNode(Files.newInputStream(path), true);
+        node = node.getChildren().stream().filter(n -> n.getName().equals("resources")).collect(Collectors.toList()).get(0);
+        Map<String, String> replacementMap = node.getChildren().stream().map(n -> n.getAttribute("path"))
+            .collect(Collectors.toMap(p -> p, p -> {
+                String artifactId = p.toString();
+                String replacement = "";
+                if(artifactId.contains(".jar")){
+                    artifactId = artifactId.substring(0, artifactId.length() - 4);
+                    artifactId = artifactId.substring(0, artifactId.lastIndexOf("-"));
+                    replacement = getReplacement(artifactId); 
+                    System.out.println(artifactId);
+                } else {
+                    log.warning(path + "'s resource-root 'deployments' not a jar resource, skipped");
+                }
+                return replacement;
+            }));
+        
+        return replacementMap;
+    }
+    
+    private String getReplacement(String artifactId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<String> getArtifactsDependencies() throws IOException{
+        
+        MavenXpp3Reader mavenReader = new MavenXpp3Reader();
+        Model model;
+        try {
+            model = mavenReader.read(this.getClass().getClassLoader().getResourceAsStream("maven/pom.xml"));
+        } catch (XmlPullParserException e) {
+            throw new RuntimeException(e);
+        }
+        MavenProject project = new MavenProject(model);     
+        List<Dependency> dependencies = project.getDependencies();
+        return dependencies.stream().map(d -> d.getGroupId() + ":" + d.getArtifactId()).collect(Collectors.toList());
     }
 
 }
