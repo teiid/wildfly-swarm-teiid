@@ -17,5 +17,5 @@ To start the generate-sources command, open a command line and navigate to the r
 
 [source,java]
 ----
-$ mvn generate-sources -Pgenerate
+$ mvn generate-sources -Pconfig
 ----

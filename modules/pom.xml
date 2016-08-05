@@ -8,33 +8,53 @@
     <version>2016.7-SNAPSHOT</version>
   </parent>
 
-  <artifactId>teiid-config-api</artifactId>
+  <artifactId>teiid-modules</artifactId>
 
-  <name>Teiid Config API</name>
-  <description>WildFly Swarm Teiid Config API</description>
+  <name>Teiid Modules</name>
+  <description>WildFly Swarm Teiid Modules</description>
 
   <packaging>jar</packaging>
-  
-  <dependencies>
-      <dependency>
-          <groupId>org.wildfly.swarm</groupId>
-          <artifactId>config-api</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>org.wildfly.swarm</groupId>
-          <artifactId>config-api-modules</artifactId>
-      </dependency>
-  </dependencies>
 
-  <build>
-      <plugins>
-          
-      </plugins>
-  </build>
-  
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency> 
+        <dependency>
+            <groupId>org.jboss.teiid</groupId>
+            <artifactId>teiid</artifactId>
+            <classifier>wildfly-dist</classifier>
+            <type>zip</type>
+        </dependency>       
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includes>**/*.xml</includes>
+                            <excludes>**/*.class</excludes>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
     <profiles>
         <profile>
-            <id>config</id>
+            <id>modules</id>
             <build>
                 <plugins>
                     <plugin>  
@@ -43,8 +63,8 @@
                         <dependencies>
                             <dependency>
                                 <groupId>org.wildfly.swarm</groupId>
-                                <artifactId>config-api-generator</artifactId>
-                                <version>${version.config-api}</version>
+                                <artifactId>teiid-modules</artifactId>
+                                <version>${project.version}</version>
                             </dependency>
                         </dependencies>
                         <executions>
@@ -54,12 +74,12 @@
                                     <goal>java</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>org.wildfly.swarm.config.generator.generator.Generator</mainClass>
+                                    <mainClass>org.wildfly.swarm.teiid.modules.generator.Generator</mainClass>
                                     <includePluginDependencies>true</includePluginDependencies>
                                     <includeProjectDependencies>true</includeProjectDependencies>
                                     <arguments>
-                                        <argument>${project.basedir}/src/main/resources/generator-config.json</argument>
-                                        <argument>${project.basedir}/src/main/java</argument>
+                                        <argument>${project.build.directory}/modules</argument>
+                                        <argument>TODO</argument>
                                     </arguments>
                                     <systemProperties>
                                         <systemProperty>
