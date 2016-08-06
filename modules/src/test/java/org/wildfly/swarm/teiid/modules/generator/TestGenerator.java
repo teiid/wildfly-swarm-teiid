@@ -24,13 +24,14 @@ public class TestGenerator {
         if(!Files.exists(modules)){
             Files.createDirectories(modules);
         }
-        generator = new Generator(modules);
+        Path pomPath = Paths.get("../feature-pack/pom.xml");
+        generator = new Generator(modules, pomPath);
     }
 
     @Test
     public void testArtifactsDependencies() throws IOException {
         List<String> dependencies = generator.getArtifactsDependencies();
-        assertEquals(135, dependencies.size());
+        assertEquals(137, dependencies.size());
         if(dumpDependencies){
             dependencies.forEach(System.out::println);
         }   
@@ -41,5 +42,20 @@ public class TestGenerator {
         List<String> dependencies = generator.getArtifactsDependencies();
         Path path = Paths.get("src/test/resources/modules/teiid.main.xml");
         Map<String, String> replacementMap = generator.getReplacementMap(dependencies, path);
+        assertTrue(replacementMap.keySet().contains("<resource-root path=\"teiid-engine-9.1.0.Alpha2.jar"));
+        assertEquals("<artifact name=\"${org.jboss.teiid:teiid-engine}", replacementMap.get("<resource-root path=\"teiid-engine-9.1.0.Alpha2.jar"));
+        assertEquals("", replacementMap.get("<resource-root path=\"deployments"));
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testErrorModuleReplacementMap() throws IOException {
+        List<String> dependencies = generator.getArtifactsDependencies();
+        Path path = Paths.get("src/test/resources/modules/modules-error.xml");
+        generator.getReplacementMap(dependencies, path);
+    }
+    
+    @Test
+    public void testReplacement() throws IOException {
+        generator.processGeneratorTargets();
     }
 }

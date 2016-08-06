@@ -87,7 +87,7 @@
                                     <includeProjectDependencies>true</includeProjectDependencies>
                                     <arguments>
                                         <argument>${project.build.directory}/modules</argument>
-                                        <argument>TODO</argument>
+                                        <argument>${project.basedir}/../feature-pack/pom.xml</argument>
                                     </arguments>
                                     <systemProperties>
                                         <systemProperty>
