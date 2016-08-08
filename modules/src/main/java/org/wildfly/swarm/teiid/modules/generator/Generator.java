@@ -52,7 +52,7 @@ public class Generator {
         
         Path modules = Paths.get(args[0]);
         if(!Files.exists(modules)){
-            throw new IllegalArgumentException("Teiid Modules argument not exist");
+            throw new IllegalArgumentException("Teiid Modules argument not exist, " + modules);
         }
         
         Path pomPath = Paths.get(args[1]);
@@ -82,22 +82,35 @@ public class Generator {
      * @throws IOException
      */
     public void processGeneratorTargets() throws IOException {
+        
+        List<String> dependencies = getArtifactsDependencies();
 
         Files.walkFileTree(modules, new SimpleFileVisitor<Path>(){
 
             @Override
             public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-                String content = new String(Files.readAllBytes(path), charset);
-                
-                // replace resource-root to artifact, eg, replace '<resource-root path="teiid-engine-9.1.0.Alpha2.jar" />'
-                // to '<artifact name="${org.jboss.teiid:teiid-engine}" />'  
-                List<String> dependencies = getArtifactsDependencies();
-                Map<String, String> replacementMap = getReplacementMap(dependencies, path);
-                replacementMap.put("urn:jboss:module:1.0", "urn:jboss:module:1.3");
-                replacementMap.put("urn:jboss:module:1.1", "urn:jboss:module:1.3");
-                replacementMap.forEach((k, v) -> content.replaceAll(k, v));
-                
-                Files.write(path, content.getBytes(charset));
+                if(path.endsWith("module.xml")){
+                    String content = new String(Files.readAllBytes(path), charset);
+                    
+                    // replace resource-root to artifact, eg, replace '<resource-root path="teiid-engine-9.1.0.Alpha2.jar" />'
+                    // to '<artifact name="${org.jboss.teiid:teiid-engine}" />'                  
+                    Map<String, String> replacementMap = getReplacementMap(dependencies, path);
+                    replacementMap.put("urn:jboss:module:1.0", "urn:jboss:module:1.3");
+                    replacementMap.put("urn:jboss:module:1.1", "urn:jboss:module:1.3");
+                    for(String key : replacementMap.keySet()){
+                        if(replacementMap.get(key).equals("")){
+                            if(content.contains(key + "\" />")){
+                                content = content.replace(key + "\" />", replacementMap.get(key));
+                            } else if(content.contains(key + "\"/>")){
+                                content = content.replace(key + "\"/>", replacementMap.get(key));
+                            }
+                        } else {
+                            content = content.replace(key, replacementMap.get(key));
+                        }              
+                    }
+                    Files.write(path, content.getBytes(charset));
+                    log.finer("rewrite " + path + " base on " + replacementMap);
+                }         
                 return super.visitFile(path, attrs);
             }});
      
@@ -112,10 +125,8 @@ public class Generator {
             .collect(Collectors.toMap(p -> "<resource-root path=\"" + p, p -> {
                 String artifactId = p.toString();
                 String replacement = "";
-                if(artifactId.contains(".jar")){
-                    artifactId = artifactId.substring(0, artifactId.length() - 4);
-                    artifactId = artifactId.substring(0, artifactId.lastIndexOf("-"));
-                    String suffix = ":" + artifactId;
+                if(artifactId.contains(".jar")){                   
+                    String suffix = findSuffix(artifactId);
                     replacement = dependencies.stream().filter(d -> d.endsWith(suffix)).findAny().orElse(null);
                     if(null != replacement){
                         replacement = "<artifact name=\"${" + replacement + "}";
@@ -131,6 +142,18 @@ public class Generator {
         return replacementMap;
     }
 
+    private String findSuffix(String artifactId) {
+        artifactId = artifactId.substring(0, artifactId.length() - 4);
+        artifactId = artifactId.substring(0, artifactId.lastIndexOf("-"));
+        if(artifactId.endsWith("-teiid") || artifactId.endsWith("-redhat")){
+            artifactId = artifactId.substring(0, artifactId.lastIndexOf("-"));
+        }
+        while(Character.isDigit(artifactId.charAt(artifactId.length() - 1)) && artifactId.charAt(artifactId.length() - 2) == '.' && artifactId.lastIndexOf("-") > 0){
+            artifactId = artifactId.substring(0, artifactId.lastIndexOf("-"));
+        }
+        return ":" + artifactId;
+    }
+
     @SuppressWarnings("unchecked")
     protected List<String> getArtifactsDependencies() throws IOException{
         
@@ -141,9 +164,10 @@ public class Generator {
         } catch (XmlPullParserException e) {
             throw new RuntimeException(e);
         }
-        MavenProject project = new MavenProject(model);     
+        MavenProject project = new MavenProject(model);  
+        
         List<Dependency> dependencies = project.getDependencies();
         return dependencies.stream().map(d -> d.getGroupId() + ":" + d.getArtifactId()).collect(Collectors.toList());
     }
-
+    
 }

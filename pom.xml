@@ -14,7 +14,7 @@
     <description>WildFly Swarm Teiid</description>
 
     <properties>
-        <version.teiid>9.1.0.Alpha2</version.teiid>
+        <version.teiid>9.1.0.Alpha1</version.teiid>
         <version.config-api>0.4.4</version.config-api>
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
         <version.org.jboss.shrinkwrap.descriptors>2.0.0-alpha-10</version.org.jboss.shrinkwrap.descriptors>
@@ -61,7 +61,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${version.maven-dependency-plugin}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.descriptors</groupId>
@@ -78,6 +77,8 @@
 
     <!-- Modules -->
     <modules>
+        <module>modules</module>
+        <module>feature-pack</module> <!-- This may move to teiid codebase(compatible with other jboss project) -->
         <module>config-api</module>
         <module>teiid</module>
     </modules>

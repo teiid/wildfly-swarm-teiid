@@ -16,10 +16,10 @@
   <packaging>jar</packaging>
 
     <dependencies>
+      
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <scope>provided</scope>
         </dependency> 
         <dependency>
             <groupId>org.jboss.teiid</groupId>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.jboss.shrinkwrap.descriptors</groupId>
             <artifactId>shrinkwrap-descriptors-impl-jboss</artifactId>
-        </dependency>    
+        </dependency>
     </dependencies>
     
     <build>

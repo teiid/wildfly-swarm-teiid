@@ -3,7 +3,7 @@
 
 === 1. Install teiid modules
 
-To install teiid modules, open a command line and navigate to the root directory of the `config-api` source code and run:
+To install teiid modules, open a command line and navigate to the root directory of the `modules` source code and run:
 
 [source,java]
 ----
@@ -18,3 +18,5 @@ In the same directory run
 ----
 $ mvn generate-sources -Pmodules
 ----
+
+Once build success, feature pack modules will located under `target/modules/`
