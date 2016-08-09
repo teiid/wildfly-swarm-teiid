@@ -1,3 +1,48 @@
-# wildfly-swarm-teiid
-The WildFly Swarm Teiid Fraction
+
+= wildfly-swarm-teiid
+
+Primary purpose of this project is provide a way to run teiid with wildfly-swarm. 
+
+Simplely, in your project add wildfly swarm teiid dependency
+
+----
+<dependency>
+  <groupId>org.wildfly.swarm</groupId>
+  <artifactId>teiid</artifactId>
+</dependency>
+----
+
+configue wildfly-swarm-plugin like
+
+----
+<plugin>
+  <groupId>org.wildfly.swarm</groupId>
+  <artifactId>wildfly-swarm-plugin</artifactId>
+  <configuration>
+    <mainClass>org.wildfly.swarm.examples.teiid.Main</mainClass>
+  </configuration>
+  ...
+</plugin>
+----
+
+the main class looks
+
+----
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        Container container = new Container();
+        container.start();
+
+        container.deploy(ds/ra/vdb);
+
+}
+----
+
+then build your project generate -swarm.jar, run teiid via
+
+----
+java -jar portfolio-example-swarm.jar
+----
 
