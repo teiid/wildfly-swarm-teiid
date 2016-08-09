@@ -49,12 +49,22 @@
             </dependency>
             <dependency>
                 <groupId>org.wildfly.swarm</groupId>
+                <artifactId>config-api-runtime</artifactId>
+                <version>${version.config-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
                 <artifactId>config-api-modules</artifactId>
                 <version>${version.config-api}</version>
             </dependency>
             <dependency>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>teiid-config-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>teiid-config-api-modules</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -77,9 +87,10 @@
 
     <!-- Modules -->
     <modules>
-        <module>modules</module>
+        <module>generator</module>
         <module>feature-pack</module> <!-- This may move to teiid codebase(compatible with other jboss project) -->
         <module>config-api</module>
+        <module>config-api-modules</module>
         <module>teiid</module>
     </modules>
 
