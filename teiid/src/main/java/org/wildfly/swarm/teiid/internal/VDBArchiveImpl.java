@@ -3,12 +3,12 @@ package org.wildfly.swarm.teiid.internal;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.impl.base.container.ContainerBase;
-import org.wildfly.swarm.teiid.TeiidArchive;
+import org.wildfly.swarm.teiid.VDBArchive;
 
-public class TeiidArchiveImpl extends ContainerBase<TeiidArchive> implements TeiidArchive {
+public class VDBArchiveImpl extends ContainerBase<VDBArchive> implements VDBArchive {
 
-    protected TeiidArchiveImpl( Archive<?> archive) {
-        super(TeiidArchive.class, archive);
+    protected VDBArchiveImpl( Archive<?> archive) {
+        super(VDBArchive.class, archive);
     }
 
     @Override
