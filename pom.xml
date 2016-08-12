@@ -68,6 +68,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>teiid-translator-modules</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${version.maven-dependency-plugin}</version>
@@ -91,6 +96,7 @@
         <module>feature-pack</module> <!-- This may move to teiid codebase(compatible with other jboss project) -->
         <module>config-api</module>
         <module>config-api-modules</module>
+        <module>translator-modules</module>
         <module>teiid</module>
     </modules>
 

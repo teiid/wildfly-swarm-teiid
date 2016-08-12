@@ -1,1 +1,0 @@
-Teiid Translator Modules
