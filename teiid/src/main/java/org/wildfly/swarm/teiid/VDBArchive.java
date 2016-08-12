@@ -1,5 +1,8 @@
 package org.wildfly.swarm.teiid;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.Assignable;
 
@@ -11,5 +14,18 @@ import org.jboss.shrinkwrap.api.Assignable;
  */
 public interface VDBArchive extends Assignable, Archive<VDBArchive> {
 
-//    TeiidArchive teiid(Teiid teiid);
+    /**
+     * Form a VDBArchive by a -vdb.xml name, the -vdb.xml either can be under class path, or under current folder 
+     * @param name
+     * @return
+     */
+    VDBArchive vdb(String name) throws IOException;
+    
+    /**
+     * Form a VDBArchive by a -vdb.xml by InputStream
+     * @param name - the deployment name
+     * @param in
+     * @return
+     */
+    VDBArchive vdb(String name, InputStream in) throws IOException;
 }

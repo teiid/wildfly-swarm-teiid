@@ -1,9 +1,7 @@
 package org.wildfly.swarm.teiid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.wildfly.swarm.config.Teiid;
 import org.wildfly.swarm.config.infinispan.cache_container.EvictionComponent;
@@ -31,6 +29,7 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction {
     
     private SecurityFraction securityFraction;
     
+    @SuppressWarnings("rawtypes")
     List<Translator> translators = new ArrayList<>();
 
     @Override
@@ -77,6 +76,13 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction {
     }
 
     /**
+     * By default, the following translators be registered:
+     *     access, accumulo, actian-vector, cassandra, db2, derby, excel, file, google-spreadsheet,
+     *     greenplum, h2, hana, hbase, hive, hsql, impala, informix, ingres, ingres93, intersystems-cache, 
+     *     jdbc-ansi, jdbc-simple, jpa2, ldap, loopback, map-cache, metamatrix, modeshape, mongodb, mysql,
+     *     mysql5, netezza, odata, odata4, olap, oracle, osisoft-pi, postgresql, prestodb, redshift, salesforce,
+     *     salesforce-34, sap-gateway, sap-nw-gateway, simpledb, solr, sqlserver, swagger, sybase, sybaseiq,
+     *     teiid, teradata, ucanaccess, vertica, ws 
      * If don't need install all translators, rewrite this method to re-register translators
      * @param translators
      */
@@ -155,12 +161,22 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction {
         Fraction.super.postInitialize(initContext);
     }
 
-    //install translator
-    private void installTranslator() {
+    /**
+     * install translator
+     */
+    protected void installTranslator() {
         
-        
-        
-        translator("h2", t -> t.module("org.jboss.teiid.translator.jdbc"));
+        translators.forEach(en -> {
+            String key = en.getKey();
+            String module = en.module();
+            String slot = en.slot();
+            
+            if(slot != null && !slot.equals("")){
+                translator(key, t -> t.module(module).slot(slot));
+            } else{
+                translator(key, t -> t.module(module));
+            }          
+        });
     }
 
     /**
