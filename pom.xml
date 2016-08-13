@@ -73,6 +73,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>teiid-resource-adapters-modules</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${version.maven-dependency-plugin}</version>
@@ -97,6 +102,7 @@
         <module>config-api</module>
         <module>config-api-modules</module>
         <module>translator-modules</module>
+        <module>resource-adapters-modules</module>
         <module>teiid</module>
     </modules>
 
