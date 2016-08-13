@@ -4,11 +4,11 @@ import java.io.InputStream;
 
 import org.jboss.shrinkwrap.api.asset.Asset;
 
-public class VDBXmlAsset implements Asset {
+public class VDBAsset implements Asset {
     
     private InputStream in;
     
-    public VDBXmlAsset(InputStream in){
+    public VDBAsset(InputStream in){
         this.in = in;
     }
 

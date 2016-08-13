@@ -9,11 +9,11 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.impl.base.container.ContainerBase;
 import org.wildfly.swarm.teiid.VDBArchive;
-import org.wildfly.swarm.teiid.VDBXmlAsset;
+import org.wildfly.swarm.teiid.VDBAsset;
 
 public class VDBArchiveImpl extends ContainerBase<VDBArchive> implements VDBArchive {
 
-    protected VDBArchiveImpl( Archive<?> archive) {
+    public VDBArchiveImpl(Archive<?> archive) {
         super(VDBArchive.class, archive);
     }
     
@@ -34,7 +34,7 @@ public class VDBArchiveImpl extends ContainerBase<VDBArchive> implements VDBArch
         if(null == in){
              throw new IllegalArgumentException(name + " can not form a inputstream");
         }
-        getArchive().add(new VDBXmlAsset(in), name);
+        getArchive().add(new VDBAsset(in), "META-INF/vdb.xml");
         return this;
     }
 
