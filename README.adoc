@@ -1,5 +1,5 @@
 
-http://www.apache.org/licenses/LICENSE-2.0[image::https://img.shields.io/:license-Apache2-blue.svg[License]]
+image::https://img.shields.io/:license-Apache2-blue.svg[title="License", link="http://www.apache.org/licenses/LICENSE-2.0"]
 
 = wildfly-swarm-teiid
 
