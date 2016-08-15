@@ -1,4 +1,4 @@
-
+image::https://api.travis-ci.org/kylinsoong/wildfly-swarm-teiid.svg?branch=master[link="https://travis-ci.org/kylinsoong/wildfly-swarm-teiid"]
 image::https://img.shields.io/:license-Apache2-blue.svg[link="http://www.apache.org/licenses/LICENSE-2.0"]
 
 = wildfly-swarm-teiid
@@ -7,6 +7,7 @@ Primary purpose of this project is provide a way to run teiid with wildfly-swarm
 
 Simplely, in your project add wildfly swarm teiid dependency
 
+[source,xml]
 ----
 <dependency>
   <groupId>org.wildfly.swarm</groupId>
@@ -16,6 +17,7 @@ Simplely, in your project add wildfly swarm teiid dependency
 
 configue wildfly-swarm-plugin like
 
+[source,xml]
 ----
 <plugin>
   <groupId>org.wildfly.swarm</groupId>
@@ -29,6 +31,7 @@ configue wildfly-swarm-plugin like
 
 the main class looks
 
+[source,java]
 ----
 public class Main {
 
@@ -44,6 +47,7 @@ public class Main {
 
 then build your project generate -swarm.jar, run teiid via
 
+[source,java]
 ----
 java -jar portfolio-example-swarm.jar
 ----
