@@ -23,9 +23,8 @@ public interface VDBArchive extends Assignable, Archive<VDBArchive> {
     
     /**
      * Form a VDBArchive by a -vdb.xml by InputStream
-     * @param name - the deployment name
      * @param in
      * @return
      */
-    VDBArchive vdb(String name, InputStream in) throws IOException;
+    VDBArchive vdb(InputStream in) throws IOException;
 }

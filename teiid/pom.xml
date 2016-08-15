@@ -29,11 +29,6 @@
       <groupId>org.wildfly.swarm</groupId>
       <artifactId>container</artifactId>
     </dependency>
- 
-    <dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>datasources</artifactId>
-    </dependency>
     
     <dependency>
       <groupId>org.wildfly.swarm</groupId>
@@ -44,7 +39,7 @@
       <groupId>org.wildfly.swarm</groupId>
       <artifactId>security</artifactId>
     </dependency>
-      
+    
     <dependency>
       <groupId>org.wildfly.swarm</groupId>
       <artifactId>teiid-config-api-modules</artifactId>
@@ -55,16 +50,38 @@
       <artifactId>teiid-translator-modules</artifactId>
     </dependency>
     
-    <!--
     <dependency>
       <groupId>org.wildfly.swarm</groupId>
-      <artifactId>jca</artifactId>
+      <artifactId>teiid-resource-adapters-modules</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>org.wildfly.swarm</groupId>
-      <artifactId>security</artifactId>
+      <artifactId>datasources</artifactId>
     </dependency>
---> 
+    <!--  
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>transactions</artifactId>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>resource-adapters</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+       
     <dependency>
       <groupId>org.wildfly.core</groupId>
       <artifactId>wildfly-core-feature-pack</artifactId>

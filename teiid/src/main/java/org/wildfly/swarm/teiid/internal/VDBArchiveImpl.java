@@ -30,12 +30,16 @@ public class VDBArchiveImpl extends ContainerBase<VDBArchive> implements VDBArch
     }
 
     @Override
-    public VDBArchive vdb(String name, InputStream in) throws IOException {
+    public VDBArchive vdb(InputStream in) throws IOException {     
+        return vdb(null, in);
+    }
+    
+    private VDBArchive vdb(String name, InputStream in) {
         if(null == in){
-             throw new IllegalArgumentException(name + " can not form a inputstream");
-        }
-        getArchive().add(new VDBAsset(in), "META-INF/vdb.xml");
-        return this;
+            throw new IllegalArgumentException(name != null ? name + " can not form a InputStream" : "InputStream is null");
+       }
+       getArchive().add(new VDBAsset(in), "META-INF/vdb.xml");
+       return this;
     }
 
     @Override
