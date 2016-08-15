@@ -1,4 +1,5 @@
-image::https://api.travis-ci.org/kylinsoong/wildfly-swarm-teiid.svg?branch=master[link="https://travis-ci.org/kylinsoong/wildfly-swarm-teiid"]
+
+image::https://travis-ci.org/kylinsoong/wildfly-swarm-teiid.svg[link="https://travis-ci.org/kylinsoong/wildfly-swarm-teiid"]
 image::https://img.shields.io/:license-Apache2-blue.svg[link="http://www.apache.org/licenses/LICENSE-2.0"]
 
 = wildfly-swarm-teiid
