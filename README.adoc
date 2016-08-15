@@ -1,4 +1,6 @@
 
+http://www.apache.org/licenses/LICENSE-2.0[https://img.shields.io/:license-Apache2-blue.svg[License]]
+
 = wildfly-swarm-teiid
 
 Primary purpose of this project is provide a way to run teiid with wildfly-swarm. 
