@@ -9,7 +9,7 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
         <repository>
           <id>jboss-public-repository-group</id>
           <name>JBoss Public Maven Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
@@ -25,7 +25,7 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
         <pluginRepository>
           <id>jboss-public-repository-group</id>
           <name>JBoss Public Maven Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
@@ -44,7 +44,7 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
         <repository>
           <id>jboss-developer-repository-group</id>
           <name>JBoss Developer Maven Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/developer/</url>
+          <url>https://repository.jboss.org/nexus/content/groups/developer/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
@@ -57,7 +57,6 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
         </repository>
       </repositories> 
     </profile>    
-    <!-- 
     <profile>
       <id>jboss-techpreview</id>
       <repositories>
@@ -93,38 +92,14 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
           </snapshots>
         </repository>
       </repositories>
-    </profile>       
-    -->                
-    <profile>
-      <id>thirdparty-uploads</id>
-      <repositories>
-        <repository>
-          <id>thirdparty-uploads</id>
-          <name>JBoss Third Party Uploads</name>
-          <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads/</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-    </profile>
-                        
+    </profile>                     
   </profiles>
-  
 
   <activeProfiles>
     <activeProfile>jboss-public-repository</activeProfile>
     <activeProfile>jboss-developer-repository</activeProfile>
-    <activeProfile>thirdparty-uploads</activeProfile>
-    <!-- 
     <activeProfile>jboss-techpreview</activeProfile>
-    <activeProfile>jboss-earlyaccess</activeProfile>    
-     -->
+    <activeProfile>jboss-earlyaccess</activeProfile>
   </activeProfiles>
 
 </settings>

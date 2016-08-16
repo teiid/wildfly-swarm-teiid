@@ -4,4 +4,4 @@ jdk:
   - oraclejdk8
 
 script:
-  - mvn clean install
+  - mvn clean install -s settings.xml
