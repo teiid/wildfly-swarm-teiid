@@ -9,8 +9,9 @@ With Wildfly Swarm Teiid, you can start a Data Virtualization platform connect/c
 
 === Step.1 add one dependency and one plugin
 
+* WildFly Swarm Teiid Dependency
+
 [source,xml]
-.*WildFly Swarm Teiid Dependency*
 ----
 <dependency>
   <groupId>org.wildfly.swarm</groupId>
@@ -18,8 +19,9 @@ With Wildfly Swarm Teiid, you can start a Data Virtualization platform connect/c
 </dependency>
 ----
 
+* WildFly Swrm Plugin
+
 [source,xml]
-.*WildFly Swrm Plugin*
 ----
 <plugin>
   <groupId>org.wildfly.swarm</groupId>
@@ -34,7 +36,6 @@ With Wildfly Swarm Teiid, you can start a Data Virtualization platform connect/c
 === Step.2 Develop Main class to setup connector/translator and deploy vdb
 
 [source,java]
-.*deploy data sources/resource adapter, VDB*
 ----
 public static void main(String[] args) throws Exception {
         
