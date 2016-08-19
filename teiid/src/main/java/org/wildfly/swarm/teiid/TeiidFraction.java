@@ -83,21 +83,6 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction<Teii
         return super.resultsetCacheName();
     }    
 
-//    @Override
-//    public void postInitialize(PostInitContext initContext) {
-//                
-//        initInfinispanCache(initContext.fraction("infinispan"));
-//        
-//        if(initContext.hasFraction("security")){
-//           this.securityFraction =  (SecurityFraction) initContext.fraction("security");
-//        }
-//        
-//        transport("jdbc" , t -> t.socketBinding("teiid-jdbc").protocol(Transport.Protocol.TEIID));
-//        
-//        installTranslator();
-//        
-//        Fraction.super.postInitialize(initContext);
-//    }
 
     /**
      * install translator
