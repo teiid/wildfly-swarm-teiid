@@ -7,7 +7,7 @@ WildFly Swarm is the decomposition and reconstitution of the popular WildFly Jav
 
 With Wildfly Swarm Teiid, you can start a Data Virtualization platform connect/compose/comsume multiple, heterogeneous data stores in simple 3 steps:
 
-**Step.1** add one dependency and one plugin
+=== Step.1 add one dependency and one plugin
 
 [source,xml]
 .*WildFly Swarm Teiid Dependency*
@@ -31,7 +31,7 @@ With Wildfly Swarm Teiid, you can start a Data Virtualization platform connect/c
 </plugin>
 ----
 
-**Step.2** Develop Main class to setup connector/translator and deploy vdb
+=== Step.2 Develop Main class to setup connector/translator and deploy vdb
 
 [source,java]
 .*deploy data sources/resource adapter, VDB*
@@ -73,10 +73,12 @@ public static void main(String[] args) throws Exception {
 }
 ----
 
-then build your project generate -swarm.jar, run teiid via
+=== Step.3 Build and Run -swarm.jar
+
+Maven Build project generate -swarm.jar and run
 
 [source,java]
 ----
-java -jar portfolio-example-swarm.jar
+java -jar target/vdb-datafederation-swarm.jar
 ----
 
