@@ -24,6 +24,8 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction<Teii
     private int odbcPort = 35432;
     
     private SecurityFraction securityFraction;
+    
+//    private LoggingFraction logging;
      
     List<Translator> translators = new ArrayList<>();
     
@@ -85,9 +87,9 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction<Teii
 
 
     /**
-     * install translator
+     * Setup translator, overwrite this method to do precise setup, by default all translators be installed
      */
-    public void installTranslator() {
+    public void setupTranslator(List<Translator> translators) {
         
         translators.forEach(en -> {
             String key = en.getKey();
@@ -101,11 +103,37 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction<Teii
             }          
         });
     }
-
+    
     /**
-     * Used to set up security
-     * @return
+     * Setup logging, overwrite this method to setup audit log handler
      */
+//    public void setupLogging(LoggingFraction logging){       
+//    }
+    
+    /**
+     * Setup security, overwrite this method to do precise setup, mainly 2 steps are necessary:
+     *   1. setup security-domain with SecurityFraction, eg
+     *      <pre>
+     *      securityFraction.securityDomain(new SecurityDomain("teiid-security")
+     *          .classicAuthentication(new ClassicAuthentication()
+     *                  .loginModule(new LoginModule("RealmDirect")
+     *                          .code("RealmDirect")
+     *                          .flag(Flag.REQUIRED)
+     *                          .moduleOptions(new HashMap<Object, Object>() {{
+     *                              put("password-stacking", "useFirstPass");
+     *                          }})
+     *                  )));
+     *      </pre>
+     *   
+     *   2. set security domain to TeiidFraction, eg
+     *      <pre>
+     *      authenticationSecurityDomain("teiid-security")
+     *      </pre>
+     */
+    public void setupSecurity(SecurityFraction securityFraction){      
+    }
+    
+
     public SecurityFraction getSecurityFraction() {
         return securityFraction;
     }
@@ -114,52 +142,13 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction<Teii
         this.securityFraction = securityFraction;
     }
 
-    /**
-     * Set up the teiid-cache with default settings:
-     *     <cache-container name="teiid-cache" default-cache="resultset">
-     *         <local-cache name="resultset-repl">
-     *             <locking isolation="READ_COMMITTED"/>
-     *             <transaction mode="NON_XA"/>
-     *             <eviction strategy="LIRS" max-entries="1024"/>
-     *             <expiration lifespan="7200000"/>
-     *         </local-cache>
-     *         <local-cache name="resultset">
-     *             <locking isolation="READ_COMMITTED"/>
-     *             <transaction mode="NON_XA"/>
-     *             <eviction strategy="LIRS" max-entries="1024"/>
-     *             <expiration lifespan="7200000"/>
-     *         </local-cache>
-     *         <local-cache name="preparedplan">
-     *             <locking isolation="READ_COMMITTED"/>
-     *             <eviction strategy="LIRS" max-entries="512"/>
-     *             <expiration lifespan="28800"/>
-     *         </local-cache>
-     *     </cache-container>
-     * 
-     * @param fraction
-     */
-//    private void initInfinispanCache(Fraction fraction) {
-//
-//        InfinispanFraction infinispan = (InfinispanFraction) fraction;
-//        infinispan.cacheContainer("teiid-cache", 
-//                cc -> cc.defaultCache("resultset")
-//                        .localCache("resultset-repl", 
-//                                c -> c.lockingComponent(l -> l.isolation(LockingComponent.Isolation.READ_COMMITTED))
-//                                      .transactionComponent(t -> t.mode(TransactionComponent.Mode.NON_XA))
-//                                      .evictionComponent(e -> e.strategy(EvictionComponent.Strategy.LIRS).maxEntries(1024L))
-//                                      .expirationComponent(e -> e.maxIdle(7200000L)))
-//                        .localCache("resultset", 
-//                                c -> c.lockingComponent(l -> l.isolation(LockingComponent.Isolation.READ_COMMITTED))
-//                                      .transactionComponent(t -> t.mode(TransactionComponent.Mode.NON_XA))
-//                                      .evictionComponent(e -> e.strategy(EvictionComponent.Strategy.LIRS).maxEntries(1024L))
-//                                      .expirationComponent(e -> e.maxIdle(7200000L)))
-//                        .localCache("preparedplan", 
-//                                c -> c.lockingComponent(l -> l.isolation(LockingComponent.Isolation.READ_COMMITTED))
-//                                      .evictionComponent(e -> e.strategy(EvictionComponent.Strategy.LIRS).maxEntries(512L))
-//                                      .expirationComponent(e -> e.maxIdle(28800L))
-//                                ));
-//                         
+//    public LoggingFraction getLogging() {
+//        return logging;
 //    }
-//    
+//
+//    public void setLogging(LoggingFraction logging) {
+//        this.logging = logging;
+//    }
+
 }
 

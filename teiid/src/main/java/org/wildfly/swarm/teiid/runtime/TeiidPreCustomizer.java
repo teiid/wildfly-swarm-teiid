@@ -2,38 +2,104 @@ package org.wildfly.swarm.teiid.runtime;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
+import org.wildfly.swarm.config.infinispan.cache_container.EvictionComponent;
+import org.wildfly.swarm.config.infinispan.cache_container.LockingComponent;
+import org.wildfly.swarm.config.infinispan.cache_container.TransactionComponent;
 import org.wildfly.swarm.config.teiid.Translator;
+import org.wildfly.swarm.container.runtime.config.DefaultSocketBindingGroupProducer;
+import org.wildfly.swarm.infinispan.InfinispanFraction;
+import org.wildfly.swarm.logging.LoggingFraction;
+import org.wildfly.swarm.security.SecurityFraction;
 import org.wildfly.swarm.spi.api.Customizer;
 import org.wildfly.swarm.spi.api.SocketBinding;
 import org.wildfly.swarm.spi.api.SocketBindingGroup;
+import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
 import org.wildfly.swarm.spi.runtime.annotations.Pre;
 import org.wildfly.swarm.teiid.TeiidFraction;
+import org.wildfly.swarm.transactions.TransactionsFraction;
 
 @Pre
-@ApplicationScoped
+@Singleton
 public class TeiidPreCustomizer implements Customizer {
     
     @Inject
-    @Named("standard-sockets")
+    @Named(DefaultSocketBindingGroupProducer.STANDARD_SOCKETS)
     private SocketBindingGroup group;
+    
+//    @Inject 
+//    @Any
+//    private LoggingFraction logging;
     
     @Inject 
     @Any
-    private Instance<TeiidFraction> fraction;
+    private InfinispanFraction infinispan;
+       
+    @Inject 
+    @Any
+    private SecurityFraction security;
+    
+    @Inject 
+    @Any
+    private TransactionsFraction transaction;
+    
+    @Inject 
+    @Any
+    private TeiidFraction teiid;
+    
+    @Inject
+    @ConfigurationValue("teiid.jdbc.port")
+    Integer jdbcPort;
+    
+    @Inject
+    @ConfigurationValue("teiid.odbc.port")
+    Integer odbcPort;
 
     @Override
     public void customize() {
-
-        this.group.socketBinding(new SocketBinding("teiid-jdbc").port(this.fraction.get().jdbcPort()));
-        this.group.socketBinding(new SocketBinding("teiid-odbc").port(this.fraction.get().odbcPort()));
         
-        registTranslators(this.fraction.get().translators());
+        if(this.jdbcPort == null){
+            this.jdbcPort = this.teiid.jdbcPort();
+        }
+        
+        if(this.odbcPort == null){
+            this.odbcPort = this.teiid.odbcPort();
+        }
+
+        this.group.socketBinding(new SocketBinding("teiid-jdbc").port(this.jdbcPort));
+        this.group.socketBinding(new SocketBinding("teiid-odbc").port(this.odbcPort));
+        
+        infinispan.cacheContainer("teiid-cache", 
+                cc -> cc.defaultCache("resultset")
+                        .localCache("resultset-repl", 
+                                c -> c.lockingComponent(l -> l.isolation(LockingComponent.Isolation.READ_COMMITTED))
+                                      .transactionComponent(t -> t.mode(TransactionComponent.Mode.NON_XA))
+                                      .evictionComponent(e -> e.strategy(EvictionComponent.Strategy.LIRS).maxEntries(1024L))
+                                      .expirationComponent(e -> e.maxIdle(7200000L)))
+                        .localCache("resultset", 
+                                c -> c.lockingComponent(l -> l.isolation(LockingComponent.Isolation.READ_COMMITTED))
+                                      .transactionComponent(t -> t.mode(TransactionComponent.Mode.NON_XA))
+                                      .evictionComponent(e -> e.strategy(EvictionComponent.Strategy.LIRS).maxEntries(1024L))
+                                      .expirationComponent(e -> e.maxIdle(7200000L)))
+                        .localCache("preparedplan", 
+                                c -> c.lockingComponent(l -> l.isolation(LockingComponent.Isolation.READ_COMMITTED))
+                                      .evictionComponent(e -> e.strategy(EvictionComponent.Strategy.LIRS).maxEntries(512L))
+                                      .expirationComponent(e -> e.maxIdle(28800L))
+                                ));
+        
+        teiid.setSecurityFraction(security);
+        
+//        logging.logger("org.teiid", lc -> lc.category("org.teiid").level(Level.INFO));
+//        logging.logger("org.teiid.COMMAND_LOG", lc -> lc.category("org.teiid.COMMAND_LOG").level(Level.WARN));
+//        logging.logger("org.teiid.AUDIT_LOG", lc -> lc.category("org.teiid.AUDIT_LOG").level(Level.WARN));
+//        teiid.setLogging(logging);
+        
+        registTranslators(this.teiid.translators());
+        
     }
     
     /**
