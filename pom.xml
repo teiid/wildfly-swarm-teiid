@@ -7,17 +7,17 @@
       <version>6</version>
     </parent>
 
-    <groupId>org.wildfly.swarm</groupId>
-    <artifactId>teiid-config-api-parent</artifactId>
+    <groupId>org.wildfly.swarm.teiid</groupId>
+    <artifactId>wildfly-swarm-teiid-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
-    <name>Teiid Config API Parent</name>
-    <description>Teiid Config API Parent</description>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>WildFly Swarm Teiid Parent</name>
+    <description>WildFly Swarm Teiid Parent</description>
 
     <properties>
         <version.teiid>9.1.0.Alpha3-SNAPSHOT</version.teiid>
         <version.config-api>0.4.6</version.config-api>
-        <version.wildfly>10.1.0.Final</version.wildfly>
+        <version.wildfly>10.0.0.Final</version.wildfly>
     </properties>
 
     <dependencyManagement>
@@ -96,14 +96,6 @@
         <module>resource-adapters-modules</module>
         -->
     </modules>
-
-    <!-- Licenses -->
-    <licenses>
-        <license>
-            <name>apache_v2</name>
-            <url>http://repository.jboss.org/licenses/apache-2.0.txt</url>
-        </license>
-    </licenses>
 
     <!-- Developers -->
     <developers>
