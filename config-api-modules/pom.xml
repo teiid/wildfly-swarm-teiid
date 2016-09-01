@@ -17,7 +17,7 @@
   
   <dependencies>
       <dependency>
-          <groupId>org.wildfly.swarm</groupId>
+          <groupId>org.wildfly.swarm.teiid</groupId>
           <artifactId>teiid-config-api</artifactId>
       </dependency>
       <dependency>
