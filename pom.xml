@@ -2,22 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>parent</artifactId>
-      <version>6</version>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-parent</artifactId>
+      <version>20</version>
     </parent>
 
-    <groupId>org.wildfly.swarm</groupId>
-    <artifactId>teiid-config-api-parent</artifactId>
+    <groupId>org.wildfly.swarm.teiid</groupId>
+    <artifactId>wildfly-swarm-teiid-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
-    <name>Teiid Config API Parent</name>
-    <description>Teiid Config API Parent</description>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>WildFly Swarm Teiid Parent</name>
+    <description>WildFly Swarm Teiid Parent</description>
 
     <properties>
-        <version.teiid>9.1.0.Alpha3-SNAPSHOT</version.teiid>
-        <version.config-api>0.4.6</version.config-api>
-        <version.wildfly>10.1.0.Final</version.wildfly>
+        <version.teiid>9.1.0.Alpha2</version.teiid>
+        <version.config-api>0.4.5</version.config-api>
+        <version.wildfly>10.0.0.Final</version.wildfly>
+        <version.org.wildfly.plugins.maven>1.0.2.Final</version.org.wildfly.plugins.maven>
     </properties>
 
     <dependencyManagement>
@@ -64,28 +65,30 @@
                 <artifactId>config-api-modules</artifactId>
                 <version>${version.config-api}</version>
             </dependency>
+            
+            <!-- internal dependencies start -->
             <dependency>
-                <groupId>org.wildfly.swarm</groupId>
+                <groupId>org.wildfly.swarm.teiid</groupId>
                 <artifactId>teiid-config-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wildfly.swarm</groupId>
+                <groupId>org.wildfly.swarm.teiid</groupId>
                 <artifactId>teiid-config-api-modules</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>teiid-translator-modules</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>teiid-resource-adapters-modules</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+            <!-- internal dependencies end -->
+
         </dependencies>
     </dependencyManagement>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <!-- Modules -->
     <modules>
@@ -97,19 +100,23 @@
         -->
     </modules>
 
-    <!-- Licenses -->
-    <licenses>
-        <license>
-            <name>apache_v2</name>
-            <url>http://repository.jboss.org/licenses/apache-2.0.txt</url>
-        </license>
-    </licenses>
-
     <!-- Developers -->
     <developers>
         <developer>
             <name>Teiid Committers</name>
         </developer>
     </developers>
+    
+    <build>
+      <pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.wildfly.plugins</groupId>
+            <artifactId>wildfly-maven-plugin</artifactId>
+            <version>${version.org.wildfly.plugins.maven}</version>
+          </plugin>      
+        </plugins>
+      </pluginManagement>
+    </build>
     
 </project>

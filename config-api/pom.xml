@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.wildfly.swarm</groupId>
-    <artifactId>teiid-config-api-parent</artifactId>
-    <version>1.0.0</version>
+    <groupId>org.wildfly.swarm.teiid</groupId>
+    <artifactId>wildfly-swarm-teiid-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>teiid-config-api</artifactId>
@@ -28,53 +28,88 @@
   </dependencies>
 
   <build>
-      <plugins>
-          
-      </plugins>
+    <plugins>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start</id>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <groupId>org.jboss.teiid</groupId>
+              <artifactId>teiid</artifactId>
+              <version>${version.teiid}</version>
+              <classifier>wildfly-server</classifier>
+              <packaging>zip</packaging>
+              <server-config>standalone-teiid.xml</server-config>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <goals>
+              <goal>shutdown</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>config-api-generator</artifactId>
+            <version>${version.config-api}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <mainClass>org.wildfly.swarm.config.generator.generator.Generator</mainClass>
+              <includePluginDependencies>true</includePluginDependencies>
+              <includeProjectDependencies>true</includeProjectDependencies>
+              <arguments>
+                <argument>${project.basedir}/src/main/resources/generator-config.json</argument>
+                <argument>${project.build.directory}/generated-sources</argument>
+              </arguments>
+              <systemProperties>
+                <systemProperty>
+                  <key>java.util.logging.SimpleFormatter.format</key>
+                  <value>%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s%2$s %5$s%6$s%n</value>
+                </systemProperty>
+              </systemProperties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>
+                ${project.build.directory}/generated-sources</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   
-    <profiles>
-        <profile>
-            <id>config</id>
-            <build>
-                <plugins>
-                    <plugin>  
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.wildfly.swarm</groupId>
-                                <artifactId>config-api-generator</artifactId>
-                                <version>${version.config-api}</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>org.wildfly.swarm.config.generator.generator.Generator</mainClass>
-                                    <includePluginDependencies>true</includePluginDependencies>
-                                    <includeProjectDependencies>true</includeProjectDependencies>
-                                    <arguments>
-                                        <argument>${project.basedir}/src/main/resources/generator-config.json</argument>
-                                        <argument>${project.basedir}/src/main/java</argument>
-                                    </arguments>
-                                    <systemProperties>
-                                        <systemProperty>
-                                            <key>java.util.logging.SimpleFormatter.format</key>
-                                            <value>%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%6$s%n</value>
-                                        </systemProperty>
-                                    </systemProperties>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>
