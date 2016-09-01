@@ -4,8 +4,8 @@
 
   <parent>
     <groupId>org.wildfly.swarm</groupId>
-    <artifactId>teiid-parent</artifactId>
-    <version>2016.9-SNAPSHOT</version>
+    <artifactId>teiid-config-api-parent</artifactId>
+    <version>1.0.0</version>
   </parent>
 
   <artifactId>teiid-config-api-modules</artifactId>

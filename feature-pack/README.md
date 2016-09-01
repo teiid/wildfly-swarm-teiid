@@ -1,1 +1,0 @@
-# teiid-feature-pack
