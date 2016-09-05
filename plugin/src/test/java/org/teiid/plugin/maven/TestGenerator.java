@@ -24,6 +24,7 @@ package org.teiid.plugin.maven;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.jar.JarFile;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -46,6 +48,32 @@ import org.teiid.plugin.maven.Generator;
 
 public class TestGenerator {
     
-    
+    @Test
+    public void testModulesProcessing() throws Exception{
+        Path path = Paths.get("/home/kylin/src/teiid-test/mvn/teiid-maven-plugin-example/target/generated-dist");
+        Path modules = path.resolve("modules");
+        
+        Path slot = modules.resolve("system/layers/dv/org/jboss/teiid/main/");
+        
+        Files.newDirectoryStream(slot).forEach(p -> {
+            if(p.toString().endsWith(".jar")){
+                try {
+                    File jarFile = p.toFile();
+                    String jarName = jarFile.getName();
+                    try (JarFile jar = new JarFile(jarFile)){
+                        File pom = File.createTempFile(jarName, ".xml");
+                        System.out.println(jarFile.getName());
+                    }
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+            }
+            
+        });
+        
+        
+    }
 
 }
