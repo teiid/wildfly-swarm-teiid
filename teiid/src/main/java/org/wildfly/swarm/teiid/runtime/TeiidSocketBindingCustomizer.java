@@ -38,8 +38,6 @@ public class TeiidSocketBindingCustomizer implements Customizer {
     @Override
     public void customize() {
         
-        System.out.println("\nTeiidPreCustomizer\n");
-
         this.group.socketBinding(new SocketBinding("teiid-jdbc").port(this.teiid.get().jdbcPort()));
         this.group.socketBinding(new SocketBinding("teiid-odbc").port(this.teiid.get().odbcPort()));
         
@@ -61,7 +59,7 @@ public class TeiidSocketBindingCustomizer implements Customizer {
                                       .expirationComponent(e -> e.maxIdle(28800L))
                                 ));
         
-//        this.teiid.get().transport("jdbc" , t -> t.socketBinding("teiid-jdbc").protocol(Transport.Protocol.TEIID));
+        this.teiid.get().transport("jdbc" , t -> t.socketBinding("teiid-jdbc").protocol(Transport.Protocol.TEIID));
 
     }
 

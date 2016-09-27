@@ -23,7 +23,6 @@ public class TeiidFraction extends Teiid<TeiidFraction> implements Fraction<Teii
     
     @PostConstruct
     public void postConstruct() {
-        System.out.println("\nTeiidFraction postConstruct\n");
         applyDefaults();
     }
     
