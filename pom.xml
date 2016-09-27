@@ -50,6 +50,32 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.jboss.teiid</groupId>
+                <artifactId>teiid-client-feature-pack</artifactId>
+                <version>${version.teiid}</version>
+                <type>zip</type>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.teiid.connectors</groupId>
+                <artifactId>feature-pack-jdbc</artifactId>
+                <version>${version.teiid}</version>
+                <type>zip</type>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
             <!-- wildfly swarm dependencies start -->
             <dependency>
@@ -122,6 +148,7 @@
     <modules>
         <module>config-api</module>
         <module>config-api-modules</module>
+        <module>translator-modules</module>
         <module>teiid</module>
         <!--
         <module>translator-modules</module>
