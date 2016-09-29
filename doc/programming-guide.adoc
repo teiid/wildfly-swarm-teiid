@@ -1,0 +1,119 @@
+
+= WildFly swarm teiid programming guide
+
+== Security set up
+
+To setup WildFly swarm teiid security, there are mainly 2 steps:
+
+* set up security-domain with SecurityFraction, eg
+
+[source,java]
+----
+securityFraction.securityDomain(new SecurityDomain("teiid-security")
+    .classicAuthentication(new ClassicAuthentication()
+            .loginModule(new LoginModule("RealmDirect")
+                    .code("RealmDirect")
+                    .flag(Flag.REQUIRED)
+                    .moduleOptions(new HashMap<Object, Object>() {{
+                        put("password-stacking", "useFirstPass");
+                    }})
+            )));
+----
+
+NOTE: the `security-domain` can be any name, but should matched with step 2
+
+* set security domain to swarm teiid via config api, eg
+
+[source,java]
+----
+authenticationSecurityDomain("teiid-security")
+----
+
+== Translator set up
+
+To set up the translator, first add reference modules as dependency, then invoke config api.
+
+[source,java]
+.*Example of set up mysql 5 translator*
+----
+String key = "mysql5";
+String module = "org.jboss.teiid.translator.jdbc";
+translator(key, t -> t.module(module));
+----
+
+=== Availble Teiid Translators
+
+More than 50 Teiid translators are avaible including: access, accumulo, actian-vector, cassandra, db2, derby, excel, file, google-spreadsheet, greenplum, h2, hana, hbase, hive, hsql, impala, informix, ingres, ingres93, intersystems-cache,  jdbc-ansi, jdbc-simple, jpa2, ldap, loopback, map-cache, metamatrix, modeshape, mongodb, mysql, mysql5, netezza, odata, odata4, olap, oracle, osisoft-pi, postgresql, prestodb, redshift, salesforce, salesforce-34, sap-gateway, sap-nw-gateway, simpledb, solr, sqlserver, swagger, sybase, sybaseiq, teiid, teradata, ucanaccess, vertica, ws.
+
+The following are config api to represent above translators:
+
+[source,java]
+----
+new Translator("jdbc-simple").module("org.jboss.teiid.translator.jdbc");
+new Translator("jdbc-ansi").module("org.jboss.teiid.translator.jdbc");
+new Translator("access").module("org.jboss.teiid.translator.jdbc");
+new Translator("db2").module("org.jboss.teiid.translator.jdbc");
+new Translator("derby").module("org.jboss.teiid.translator.jdbc");
+new Translator("h2").module("org.jboss.teiid.translator.jdbc");
+new Translator("hsql").module("org.jboss.teiid.translator.jdbc");
+new Translator("informix").module("org.jboss.teiid.translator.jdbc");
+new Translator("metamatrix").module("org.jboss.teiid.translator.jdbc");
+new Translator("mysql").module("org.jboss.teiid.translator.jdbc");
+new Translator("mysql5").module("org.jboss.teiid.translator.jdbc");
+new Translator("oracle").module("org.jboss.teiid.translator.jdbc");
+new Translator("postgresql").module("org.jboss.teiid.translator.jdbc");
+new Translator("greenplum").module("org.jboss.teiid.translator.jdbc");
+new Translator("sqlserver").module("org.jboss.teiid.translator.jdbc");
+new Translator("sybase").module("org.jboss.teiid.translator.jdbc");
+new Translator("sybaseiq").module("org.jboss.teiid.translator.jdbc");
+new Translator("teiid").module("org.jboss.teiid.translator.jdbc");
+new Translator("teradata").module("org.jboss.teiid.translator.jdbc");
+new Translator("modeshape").module("org.jboss.teiid.translator.jdbc");
+new Translator("ingres").module("org.jboss.teiid.translator.jdbc");
+new Translator("ingres93").module("org.jboss.teiid.translator.jdbc");
+new Translator("intersystems-cache").module("org.jboss.teiid.translator.jdbc");
+new Translator("netezza").module("org.jboss.teiid.translator.jdbc");
+new Translator("file").module("org.jboss.teiid.translator.file");
+new Translator("ldap").module("org.jboss.teiid.translator.ldap");
+new Translator("loopback").module("org.jboss.teiid.translator.loopback");
+new Translator("olap").module("org.jboss.teiid.translator.olap");
+new Translator("ws").module("org.jboss.teiid.translator.ws");
+new Translator("salesforce").module("org.jboss.teiid.translator.salesforce");
+new Translator("salesforce-34").module("org.jboss.teiid.translator.salesforce-34").slot("34");
+new Translator("hive").module("org.jboss.teiid.translator.hive");
+new Translator("map-cache").module("org.jboss.teiid.translator.object");
+new Translator("google-spreadsheet").module("org.jboss.teiid.translator.google");
+new Translator("odata").module("org.jboss.teiid.translator.odata");
+new Translator("sap-gateway").module("org.jboss.teiid.translator.odata");
+new Translator("sap-nw-gateway").module("org.jboss.teiid.translator.odata");
+new Translator("mongodb").module("org.jboss.teiid.translator.mongodb");
+new Translator("cassandra").module("org.jboss.teiid.translator.cassandra");
+new Translator("accumulo").module("org.jboss.teiid.translator.accumulo");
+new Translator("solr").module("org.jboss.teiid.translator.solr");
+new Translator("excel").module("org.jboss.teiid.translator.excel");
+new Translator("impala").module("org.jboss.teiid.translator.hive");
+new Translator("prestodb").module("org.jboss.teiid.translator.prestodb");
+new Translator("hbase").module("org.jboss.teiid.translator.hbase");
+new Translator("hana").module("org.jboss.teiid.translator.jdbc");
+new Translator("vertica").module("org.jboss.teiid.translator.jdbc");
+new Translator("actian-vector").module("org.jboss.teiid.translator.jdbc");
+new Translator("osisoft-pi").module("org.jboss.teiid.translator.jdbc");
+new Translator("odata4").module("org.jboss.teiid.translator.odata4");
+new Translator("redshift").module("org.jboss.teiid.translator.jdbc");
+new Translator("jpa2").module("org.jboss.teiid.translator.jpa");
+new Translator("ucanaccess").module("org.jboss.teiid.translator.jdbc");
+new Translator("simpledb").module("org.jboss.teiid.translator.simpledb");
+new Translator("swagger").module("org.jboss.teiid.translator.swagger");
+----
+
+== Transport set up
+
+The `31000` and `35432` are two default socketBindings port, which represent `teiid-jdbc` and `teiid-odbc` relevantly. The `jdbc` transport are default installed, in other words, by default swarm teiid monitor on `31000`.
+
+To set up Transport invoke config api, eg:
+
+[source,java]
+----
+transport("jdbc" , t -> t.socketBinding("teiid-jdbc").protocol(Transport.Protocol.TEIID));
+transport("odbc" , t -> t.socketBinding("teiid-odbc").protocol(Transport.Protocol.PG));
+----
