@@ -20,7 +20,7 @@
         <version.wildfly-swarm>2016.8.1</version.wildfly-swarm>
         <version.wildfly>10.0.0.Final</version.wildfly>
         <version.org.wildfly.plugins.maven>1.0.2.Final</version.org.wildfly.plugins.maven>
-
+        <version.org.wildfly.build-tools>1.1.6.Final</version.org.wildfly.build-tools>
         <version.wildfly.swarm.fraction.plugin>34</version.wildfly.swarm.fraction.plugin>
         <version.org.wildfly.build>1.1.6.Final</version.org.wildfly.build>
         <version.org.jboss.shrinkwrap.descriptors>2.0.0-alpha-10</version.org.jboss.shrinkwrap.descriptors>
@@ -66,6 +66,19 @@
             <dependency>
                 <groupId>org.jboss.teiid.connectors</groupId>
                 <artifactId>feature-pack-jdbc</artifactId>
+                <version>${version.teiid}</version>
+                <type>zip</type>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.teiid.connectors</groupId>
+                <artifactId>feature-pack-misc</artifactId>
                 <version>${version.teiid}</version>
                 <type>zip</type>
                 <scope>provided</scope>
@@ -148,8 +161,8 @@
     <modules>
         <module>config-api</module>
         <module>config-api-modules</module>
-        <module>translator-modules</module>
         <module>teiid</module>
+        <module>connectors-modules</module>
         <!--
         <module>translator-modules</module>
         <module>resource-adapters-modules</module>
@@ -171,6 +184,11 @@
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.org.wildfly.plugins.maven}</version>
                 </plugin>      
+                <plugin>
+                    <groupId>org.wildfly.build</groupId>
+                    <artifactId>wildfly-server-provisioning-maven-plugin</artifactId>
+                    <version>${version.org.wildfly.build-tools}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.wildfly.swarm</groupId>
                     <artifactId>wildfly-swarm-fraction-plugin</artifactId>
