@@ -8,16 +8,16 @@
   </parent>
 
   <groupId>org.jboss.teiid.connectors</groupId>
-  <artifactId>translator-modules</artifactId>
+  <artifactId>connectors-modules</artifactId>
 
-  <name>Teiid Translator Modules</name>
-  <description>WildFly Swarm Teiid Translator Modules</description>
+  <name>Teiid Connectors Modules</name>
 
   <packaging>pom</packaging>
 
 
   <modules>
     <module>jdbc</module>
+    <module>misc</module>
   </modules>
  
 </project> 
