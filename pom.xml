@@ -162,7 +162,6 @@
         <module>config-api</module>
         <module>config-api-modules</module>
         <module>teiid</module>
-        <module>connectors-modules</module>
         <!--
         <module>translator-modules</module>
         <module>resource-adapters-modules</module>
