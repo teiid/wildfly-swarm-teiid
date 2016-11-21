@@ -106,6 +106,34 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>org.jboss.teiid</groupId>
+      <artifactId>rest-service-feature-pack</artifactId>
+      <version>${version.teiid.feature-pack}</version>
+      <type>zip</type>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+ 
+    <dependency>
+      <groupId>org.jboss.teiid.connectors</groupId>
+      <artifactId>feature-pack-swagger</artifactId>
+      <version>${version.teiid.feature-pack}</version>
+      <type>zip</type>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     
     <dependency>
       <groupId>org.jboss.teiid</groupId>
