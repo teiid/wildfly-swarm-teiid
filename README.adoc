@@ -1,5 +1,7 @@
 
 
+IMPORTANT: This is a legacy and unreleased version of Wildfly Swarm Teiid, the latest implementation be moved to https://github.com/wildfly-swarm[wildfly-swarm], specifically, the teiid fraction goes into https://github.com/wildfly-swarm/wildfly-swarm/tree/master/fractions/teiid[wildfly-swarm/fractions/teiid] and the config api goes into https://github.com/wildfly-swarm/teiid-config-api[wildfly-swarm/teiid-config-api], the first final release is the `2017.4.0`.  
+
 == What is Wildfly Swarm Teiid
 
 WildFly Swarm is the decomposition and reconstitution of the popular WildFly Java Application Server, each portion of the Application Server is referred to as a fraction, **Wildfly Swarm Teiid is one of fraction** in order to run teiid as microservice type applications.
