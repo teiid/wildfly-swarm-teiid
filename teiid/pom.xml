@@ -13,7 +13,7 @@
   <packaging>jar</packaging>
   
   <properties>
-    <version.teiid.feature-pack>9.2.0.Alpha1</version.teiid.feature-pack>
+    <version.teiid.feature-pack>10.0.0.Alpha2</version.teiid.feature-pack>
     <version.teiid.config.api>1.0.0-SNAPSHOT</version.teiid.config.api>
   </properties>
 
@@ -94,7 +94,7 @@
     </dependency>
   
     <dependency>
-      <groupId>org.jboss.teiid</groupId>
+      <groupId>org.teiid</groupId>
       <artifactId>teiid-wildfly-integration-feature-pack</artifactId>
       <version>${version.teiid.feature-pack}</version>
       <type>zip</type>
@@ -108,7 +108,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jboss.teiid</groupId>
+      <groupId>org.teiid</groupId>
       <artifactId>rest-service-feature-pack</artifactId>
       <version>${version.teiid.feature-pack}</version>
       <type>zip</type>
@@ -122,7 +122,7 @@
     </dependency>
  
     <dependency>
-      <groupId>org.jboss.teiid.connectors</groupId>
+      <groupId>org.teiid.connectors</groupId>
       <artifactId>feature-pack-swagger</artifactId>
       <version>${version.teiid.feature-pack}</version>
       <type>zip</type>
@@ -136,7 +136,7 @@
     </dependency>
     
     <dependency>
-      <groupId>org.jboss.teiid</groupId>
+      <groupId>org.teiid</groupId>
       <artifactId>teiid-client-feature-pack</artifactId>
       <version>${version.teiid.feature-pack}</version>
       <type>zip</type>

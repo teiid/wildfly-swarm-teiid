@@ -40,7 +40,7 @@
             </goals>
             <phase>validate</phase>
             <configuration>
-              <groupId>org.jboss.teiid</groupId>
+              <groupId>org.teiid</groupId>
               <artifactId>teiid</artifactId>
               <version>${version.teiid}</version>
               <classifier>wildfly-server</classifier>
